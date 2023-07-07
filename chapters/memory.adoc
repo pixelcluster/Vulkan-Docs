@@ -1722,6 +1722,12 @@ ifdef::VK_EXT_metal_objects[]
     pname:exportObjectType member must: be
     ename:VK_EXPORT_METAL_OBJECT_TYPE_METAL_BUFFER_BIT_EXT
 endif::VK_EXT_metal_objects[]
+ifdef::VK_FROG_memory_initialization_control[]
+  * If the pname:pNext chain includes a
+    slink:VkMemoryInitializationCreateInfoFROG, the bit corresponding to
+    pname:memoryTypeIndex must: be set in
+    slink:VkPhysicalDeviceMemoryInitializationControlPropertiesFROG::pname:supportedMemoryTypes
+endif::VK_FROG_memory_initialization_control[]
 ****
 
 include::{generated}/validity/structs/VkMemoryAllocateInfo.adoc[]
@@ -3315,6 +3321,38 @@ more elink:VkMemoryAllocateFlagBits.
 --
 endif::VK_VERSION_1_1,VK_KHR_device_group[]
 
+ifdef::VK_FROG_memory_initialization_control[]
+[open,refpage='VkMemoryInitializationCreateInfoFROG',desc='Structure controlling initialization of device memory by an implementation',type='structs']
+--
+The sname:VkMemoryInitializationCreateInfoFROG structure is defined as:
+
+include::{generated}/api/structs/VkMemoryInitializationCreateInfoFROG.adoc[]
+
+  * pname:sType is a elink:VkStructureType value identifying this structure.
+  * pname:pNext is `NULL` or a pointer to a structure extending this
+    structure.
+  * pname:memoryInitializationMode is a elink:VkMemoryInitializationModeFROG
+    value controlling the memory initialization.
+
+include::{generated}/validity/structs/VkMemoryInitializationCreateInfoFROG.adoc[]
+--
+
+[open,refpage='VkMemoryInitializationModeFROG',desc='Memory initialization control modes',type='enums']
+--
+Possible values for ename:VkMemoryInitializationModeFROG include:
+
+include::{generated}/api/enums/VkMemoryInitializationModeFROG.adoc[]
+
+  * ename:VK_MEMORY_INITIALIZATION_MODE_DEFAULT_FROG specifies that the
+    implementation should: use its default mechanisms to initialize memory.
+  * ename:VK_MEMORY_INITIALIZATION_MODE_DONT_CARE_FROG specifies that the
+    implementation should: not attempt to initialize the contents of the
+    allocated device memory except if needed to provide required security
+    guarantees.
+  * ename:VK_MEMORY_INITIALIZATION_MODE_FILL_ZERO_FROG specifies that the
+    contents of the allocated device memory must: be filled with zero.
+--
+endif::VK_FROG_memory_initialization_control[]
 
 ifdef::VK_VERSION_1_2,VK_KHR_buffer_device_address[]
 === Opaque Capture Address Allocation

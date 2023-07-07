@@ -4112,6 +4112,32 @@ include::{generated}/validity/structs/VkPhysicalDeviceShaderObjectPropertiesEXT.
 --
 endif::VK_EXT_shader_object[]
 
+ifdef::VK_FROG_memory_initialization_control[]
+[open,refpage='VkPhysicalDeviceMemoryInitializationControlPropertiesFROG',desc='Properties of a physical device for memory initialization control',type='structs']
+--
+The sname:VkPhysicalDeviceMemoryInitializationControlPropertiesFROG structure
+is defined as:
+
+include::{generated}/api/structs/VkPhysicalDeviceMemoryInitializationControlPropertiesFROG.adoc[]
+
+  * pname:sType is a elink:VkStructureType value identifying this structure.
+  * pname:pNext is `NULL` or a pointer to a structure extending this
+    structure.
+  * pname:supportedMemoryTypes is a bitmask containing one bit set for every
+    memory type that supports application-controlled memory initialization.
+  * pname:lowThroughputFillMemoryTypes is a bitmask containing one bit set for
+    every memory type where the implementation uses low-throughput operations
+    to initialize device memory in the background.
+
+Implementations should: set bits in pname:lowThroughputFillMemoryTypes only if
+initializing memory explicitly, for example via flink:vkCmdFillBuffer, is
+expected to yield significantly higher throughput compared to the
+implementation's default initialization mechanisms.
+
+include::{generated}/validity/structs/VkPhysicalDeviceMemoryInitializationControlPropertiesFROG.adoc[]
+--
+endif::VK_FROG_memory_initialization_control[]
+
 [[limits-minmax]]
 == Limit Requirements
 

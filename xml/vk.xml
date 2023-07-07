@@ -8389,7 +8389,7 @@ typedef void* <name>MTLSharedEvent_id</name>;
             <member optional="true"><type>void</type>*                               <name>pNext</name></member>
             <member limittype="bitmask"><type>VkShaderStageFlags</type>              <name>cooperativeMatrixSupportedStages</name></member>
         </type>
-		<type category="struct" name="VkPhysicalDeviceMemoryInitializationControlFeaturesFROG" structextends="VkPhysicalDeviceFeatures2">
+		<type category="struct" name="VkPhysicalDeviceMemoryInitializationControlFeaturesFROG" structextends="VkPhysicalDeviceFeatures2,VkDeviceCreateInfo">
 			<member values="VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MEMORY_INITIALIZATION_CONTROL_FEATURES_FROG"><type>VkStructureType</type> <name>sType</name></member>
 			<member optional="true"><type>void</type>*                                                                                   <name>pNext</name></member>
 			<member><type>VkBool32</type>                                                                                                <name>memoryInitializationControl</name></member>
@@ -8399,13 +8399,11 @@ typedef void* <name>MTLSharedEvent_id</name>;
 			<member optional="true"><type>void</type>*                                                                                     <name>pNext</name></member>
 			<member><type>uint32_t</type>                                                                                                  <name>supportedMemoryTypes</name></member>
 			<member><type>uint32_t</type>                                                                                                  <name>lowThroughputFillMemoryTypes</name></member>
-			<member><type>uint32_t</type>                                                                                                  <name>nonZeroFillValueMemoryTypes</name></member>
 		</type>
 		<type category="struct" name="VkMemoryInitializationCreateInfoFROG" structextends="VkMemoryAllocateInfo">
 			<member values="VK_STRUCTURE_TYPE_MEMORY_INITIALIZATION_CREATE_INFO_FROG"><type>VkStructureType</type> <name>sType</name></member>
 			<member optional="true">const <type>void</type>*                                                        <name>pNext</name></member>
 			<member><type>VkMemoryInitializationModeFROG</type>                                                    <name>memoryInitializationMode</name></member>
-			<member><type>uint32_t</type>                                                                           <name>fillValue</name></member>
 		</type>
     </types>
 
@@ -10463,7 +10461,7 @@ typedef void* <name>MTLSharedEvent_id</name>;
 	<enums name="VkMemoryInitializationModeFROG" type="enum">
 		<enum value="0" name="VK_MEMORY_INITIALIZATION_MODE_DEFAULT_FROG"/>
 		<enum value="1" name="VK_MEMORY_INITIALIZATION_MODE_DONT_CARE_FROG"/>
-		<enum value="2" name="VK_MEMORY_INITIALIZATION_MODE_FILL_VALUE_FROG"/>
+		<enum value="2" name="VK_MEMORY_INITIALIZATION_MODE_FILL_ZERO_FROG"/>
 	</enums>
 
     <commands comment="Vulkan command definitions">

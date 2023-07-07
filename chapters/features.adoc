@@ -6787,6 +6787,27 @@ include::{generated}/validity/structs/VkPhysicalDeviceClusterCullingShaderFeatur
 
 endif::VK_HUAWEI_cluster_culling_shader[]
 
+ifdef::VK_FROG_memory_initialization_control[]
+[open,refpage='VkPhysicalDeviceMemoryInitializationControlFeaturesFROG',desc='Structure describing the memory initialization control features of a physical device',type='structs']
+--
+The sname:VkPhysicalDeviceMemoryInitializationControlFeaturesFROG structure is
+defined as:
+
+include::{generated}/api/structs/VkPhysicalDeviceMemoryInitializationControlFeaturesFROG.adoc[]
+
+This structure describes the following features:
+
+  * pname:sType is a elink:VkStructureType value identifying this structure.
+  * pname:pNext is `NULL` or a pointer to a structure extending this
+    structure.
+  * pname:memoryInitializationControl indicates whether the implementation
+    supports application-controlled memory initialization via the
+    sname:VkMemoryInitializationCreateInfoFROG structure.
+
+include::{generated}/validity/structs/VkPhysicalDeviceMemoryInitializationControlFeaturesFROG.adoc[]
+--
+endif::VK_FROG_memory_initialization_control[]
+
 [[features-requirements]]
 == Feature Requirements
 
