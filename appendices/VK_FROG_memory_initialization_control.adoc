@@ -1,0 +1,111 @@
+// Copyright 2020-2023 The Khronos Group Inc.
+//
+// SPDX-License-Identifier: CC-BY-4.0
+
+include::{generated}/meta/{refprefix}VK_FROG_memory_initialization_control.adoc[]
+
+=== Other Extension Metadata
+
+*Last Modified Date*::
+    2023-07-07
+*IP Status*::
+    No known IP claims.
+*Contributors*::
+  - Hans-Kristian Arntzen, Valve
+
+=== Description
+
+This extension allows applications to control the initial state of memory
+after allocating a fresh slink:VkDeviceMemory object.
+This can be very useful for API layering, since the layered API may
+have stronger guarantees about the initial state of memory,
+which would need to be emulated rather than relying on the implementation to provide the functionality in a more efficient way.
+
+When allocating a new memory object (i.e. not imported external memory),
+slink:VkMemoryInitializationCreateInfoFROG can be
+passed in the pname:pNext chain of slink:VkMemoryAllocateInfo to control which behavior
+is desired. ename:VK_MEMORY_INITIALIZATION_MODE_DONT_CARE_FROG is intended
+for scenarios where memory does not have to be cleared and either application will take care of it,
+or uninitialized memory is acceptable.
+This mode does not allow applications to bypass security mechanisms defined by the platform,
+but for situations where memory is recycled within a process, applications may: observe
+uninitialized memory.
+
+Implementations may: also provide information in slink:VkPhysicalDeviceMemoryInitializationControlPropertiesFROG
+asking that applications perform their own clears rather than rely on the implementation to perform it
+if high throughput is desired.
+Some implementations may perform internal clears with a lower throughput than expected as a way to
+not disrupt performance of other device work.
+
+With ename:VK_MEMORY_INITIALIZATION_MODE_FILL_VALUE_FROG,
+applications can: request that memory is filled with a specific code:uint32_t value.
+A value of zero must: be supported, but non-zero values may: be supported to facilitate debugging in a convenient way.
+For example, instead of using ename:VK_MEMORY_INITIALIZATION_MODE_DONT_CARE_FROG,
+a non-zero fill value may be useful in a development build of an application to address unintentional use of uninitialized memory.
+
+[NOTE]
+.Note
+====
+There is currently no specification language written for this extension.
+The links to APIs defined by the extension are to stubs that only include
+generated content such as API declarations and implicit valid usage
+statements.
+
+TODO: Fix me!
+====
+
+include::{generated}/interfaces/VK_FROG_memory_initialization_control.adoc[]
+
+ifndef::isrefpage[]
+
+=== Stub API References
+
+[open,refpage='VkPhysicalDeviceMemoryInitializationControlFeaturesFROG',desc='Stub description of VkPhysicalDeviceMemoryInitializationControlFeaturesFROG',type='structs']
+--
+There is currently no specification language written for this type.
+This section acts only as placeholder and to avoid dead links in the
+specification and reference pages.
+
+include::{generated}/api/structs/VkPhysicalDeviceMemoryInitializationControlFeaturesFROG.adoc[]
+
+include::{generated}/validity/structs/VkPhysicalDeviceMemoryInitializationControlFeaturesFROG.adoc[]
+--
+
+[open,refpage='VkPhysicalDeviceMemoryInitializationControlPropertiesFROG',desc='Stub description of VkPhysicalDeviceMemoryInitializationControlPropertiesFROG',type='structs']
+--
+There is currently no specification language written for this type.
+This section acts only as placeholder and to avoid dead links in the
+specification and reference pages.
+
+include::{generated}/api/structs/VkPhysicalDeviceMemoryInitializationControlPropertiesFROG.adoc[]
+
+include::{generated}/validity/structs/VkPhysicalDeviceMemoryInitializationControlPropertiesFROG.adoc[]
+--
+
+
+[open,refpage='VkMemoryInitializationCreateInfoFROG',desc='Stub description of VkMemoryInitializationCreateInfoFROG',type='structs']
+--
+There is currently no specification language written for this type.
+This section acts only as placeholder and to avoid dead links in the
+specification and reference pages.
+
+include::{generated}/api/structs/VkMemoryInitializationCreateInfoFROG.adoc[]
+
+include::{generated}/validity/structs/VkMemoryInitializationCreateInfoFROG.adoc[]
+--
+
+[open,refpage='VkMemoryInitializationModeFROG',desc='Stub description of VkMemoryInitializationModeFROG',type='structs']
+--
+There is currently no specification language written for this type.
+This section acts only as placeholder and to avoid dead links in the
+specification and reference pages.
+
+include::{generated}/api/enums/VkMemoryInitializationModeFROG.adoc[]
+--
+
+endif::isrefpage[]
+
+=== Version History
+
+  * Revision 1, 2023-07-07 (Hans-Kristian Arntzen)
+  ** Initial specification

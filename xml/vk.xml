@@ -781,6 +781,7 @@ typedef void* <name>MTLSharedEvent_id</name>;
         <type name="VkComponentTypeKHR" category="enum"/>
         <type category="enum" name="VkScopeNV"                                     alias="VkScopeKHR"/>
         <type category="enum" name="VkComponentTypeNV"                             alias="VkComponentTypeKHR"/>
+		<type category="enum" name="VkMemoryInitializationModeFROG"/>
 
             <comment>WSI extensions</comment>
         <type name="VkColorSpaceKHR" category="enum"/>
@@ -8388,8 +8389,25 @@ typedef void* <name>MTLSharedEvent_id</name>;
             <member optional="true"><type>void</type>*                               <name>pNext</name></member>
             <member limittype="bitmask"><type>VkShaderStageFlags</type>              <name>cooperativeMatrixSupportedStages</name></member>
         </type>
+		<type category="struct" name="VkPhysicalDeviceMemoryInitializationControlFeaturesFROG" structextends="VkPhysicalDeviceFeatures2">
+			<member values="VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MEMORY_INITIALIZATION_CONTROL_FEATURES_FROG"><type>VkStructureType</type> <name>sType</name></member>
+			<member optional="true"><type>void</type>*                                                                                   <name>pNext</name></member>
+			<member><type>VkBool32</type>                                                                                                <name>memoryInitializationControl</name></member>
+		</type>
+		<type category="struct" name="VkPhysicalDeviceMemoryInitializationControlPropertiesFROG" structextends="VkPhysicalDeviceProperties2">
+			<member values="VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MEMORY_INITIALIZATION_CONTROL_PROPERTIES_FROG"><type>VkStructureType</type> <name>sType</name></member>
+			<member optional="true"><type>void</type>*                                                                                     <name>pNext</name></member>
+			<member><type>uint32_t</type>                                                                                                  <name>supportedMemoryTypes</name></member>
+			<member><type>uint32_t</type>                                                                                                  <name>lowThroughputFillMemoryTypes</name></member>
+			<member><type>uint32_t</type>                                                                                                  <name>nonZeroFillValueMemoryTypes</name></member>
+		</type>
+		<type category="struct" name="VkMemoryInitializationCreateInfoFROG" structextends="VkMemoryAllocateInfo">
+			<member values="VK_STRUCTURE_TYPE_MEMORY_INITIALIZATION_CREATE_INFO_FROG"><type>VkStructureType</type> <name>sType</name></member>
+			<member optional="true">const <type>void</type>*                                                        <name>pNext</name></member>
+			<member><type>VkMemoryInitializationModeFROG</type>                                                    <name>memoryInitializationMode</name></member>
+			<member><type>uint32_t</type>                                                                           <name>fillValue</name></member>
+		</type>
     </types>
-
 
     <comment>Vulkan enumerant (token) definitions</comment>
 
@@ -10442,6 +10460,11 @@ typedef void* <name>MTLSharedEvent_id</name>;
         <enum value="9"     name="VK_COMPONENT_TYPE_UINT32_KHR"/>
         <enum value="10"    name="VK_COMPONENT_TYPE_UINT64_KHR"/>
     </enums>
+	<enums name="VkMemoryInitializationModeFROG" type="enum">
+		<enum value="0" name="VK_MEMORY_INITIALIZATION_MODE_DEFAULT_FROG"/>
+		<enum value="1" name="VK_MEMORY_INITIALIZATION_MODE_DONT_CARE_FROG"/>
+		<enum value="2" name="VK_MEMORY_INITIALIZATION_MODE_FILL_VALUE_FROG"/>
+	</enums>
 
     <commands comment="Vulkan command definitions">
         <command successcodes="VK_SUCCESS" errorcodes="VK_ERROR_OUT_OF_HOST_MEMORY,VK_ERROR_OUT_OF_DEVICE_MEMORY,VK_ERROR_INITIALIZATION_FAILED,VK_ERROR_LAYER_NOT_PRESENT,VK_ERROR_EXTENSION_NOT_PRESENT,VK_ERROR_INCOMPATIBLE_DRIVER">
@@ -22597,6 +22620,18 @@ typedef void* <name>MTLSharedEvent_id</name>;
             <require>
                 <enum value="0"                                         name="VK_EXT_EXTENSION_543_SPEC_VERSION"/>
                 <enum value="&quot;VK_EXT_extension_543&quot;"          name="VK_EXT_EXTENSION_543_EXTENSION_NAME"/>
+            </require>
+        </extension>
+        <extension name="VK_FROG_memory_initialization_control" number="544" type="device" author="FROG" contact="Hans-Kristian Arntzen @HansKristian-Work" supported="vulkan" depends="VK_KHR_get_physical_device_properties2,VK_VERSION_1_1">
+            <require>
+                <enum value="&quot;VK_FROG_memory_initialization_control&quot;" name="VK_FROG_MEMORY_INITIALIZATION_CONTROL_EXTENSION_NAME"/>
+                <enum value="1"                                                  name="VK_FROG_MEMORY_INITIALIZATION_CONTROL_SPEC_VERSION"/>
+				<enum extends="VkStructureType" offset="0" name="VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MEMORY_INITIALIZATION_CONTROL_FEATURES_FROG"/>
+				<enum extends="VkStructureType" offset="1" name="VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MEMORY_INITIALIZATION_CONTROL_PROPERTIES_FROG"/>
+				<type name="VkPhysicalDeviceMemoryInitializationControlFeaturesFROG"/>
+				<type name="VkPhysicalDeviceMemoryInitializationControlPropertiesFROG"/>
+				<type name="VkMemoryInitializationModeFROG"/>
+				<type name="VkMemoryInitializationCreateInfoFROG"/>
             </require>
         </extension>
     </extensions>
