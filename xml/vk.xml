@@ -22628,6 +22628,7 @@ typedef void* <name>MTLSharedEvent_id</name>;
                 <enum value="1"                                                  name="VK_FROG_MEMORY_INITIALIZATION_CONTROL_SPEC_VERSION"/>
 				<enum extends="VkStructureType" offset="0" name="VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MEMORY_INITIALIZATION_CONTROL_FEATURES_FROG"/>
 				<enum extends="VkStructureType" offset="1" name="VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MEMORY_INITIALIZATION_CONTROL_PROPERTIES_FROG"/>
+				<enum extends="VkStructureType" offset="2" name="VK_STRUCTURE_TYPE_MEMORY_INITIALIZATION_CREATE_INFO_FROG"/>
 				<type name="VkPhysicalDeviceMemoryInitializationControlFeaturesFROG"/>
 				<type name="VkPhysicalDeviceMemoryInitializationControlPropertiesFROG"/>
 				<type name="VkMemoryInitializationModeFROG"/>
