@@ -1,0 +1,106 @@
+// Copyright 2022-2023 The Khronos Group Inc.
+//
+// SPDX-License-Identifier: CC-BY-4.0
+
+= Proposal Template
+:toc: left
+:refpage: https://registry.khronos.org/vulkan/specs/1.3-extensions/man/html/
+:sectnums:
+
+This document details API design ideas for the `VK_FROG_memory_initialization_control` extension,
+which provides functionality for finer control over memory initialization when allocating device
+memory.
+
+== Problem Statement
+
+On many platforms, Vulkan implementations perform initialization of device memory transparently
+to the application. This is done for a variety of reasons, including fulfilling necessary security
+guarantees by preventing data from processes to leak into others, or to accommodate applications that
+expect contents of device memory to always be initialized. 
+
+Some implementations may perform the initialization using background work that, while
+having minimal impact on application performance, lowers the throughput of the initialization and thus
+leads to longer delays until applications are able to use the allocated device memory.
+
+Additionally, some layered implementations of other APIs on top of Vulkan need to explicitly initialize
+device memory after allocations if the layered API requires memory to be initialized. This double
+initialization is redundant when the implementation has already initialized the contents.
+
+Applications could achieve higher performance if there was a way for applications to indicate that
+low-throughput initialization is undesired for certain allocations. The application may then decide to
+explicitly initialize the memory itself with higher throughput, or to skip initialization entirely
+if it is not required. Conversely, if it is deemed desirable to let the implementation perform
+initialization in the background, layered API implementations on top of Vulkan can benefit from being
+able to rely on device memory being initialized, skipping the redundant copy on the driver side.
+
+== Solution Space
+
+  . Do not initialize any memory in the implementation, unless required for security purposes 
+
+ * Many applications expect device memory to be initialized (for example zeroed out) despite
+   no such guarantees being given in Vulkan. Not initializing any memory can lead to these apps
+   showing visual artifacts or even crashing. Additionally, this forces layered API implementations
+   on top of Vulkan to always manually initialize memory, even if the implementation is able to
+   perform the initialization more efficiently.
+
+  . Decide whether or not to initialize memory based on implementation-internal heuristics
+
+ * This approach requires each implementation to be aware of each application and vice versa.
+   Applications wishing to skip manual memory initialization need form assumptions about
+   implementation heuristics beyond the guarantees that Vulkan provides.
+   If either the heuristics or the applications unexpectedly change, such violated assumptions
+   cause undefined behaviour.
+
+  . Expose a Vulkan extension allowing for memory initialization control
+
+ * With a new Vulkan extension, applications themselves could indicate to the implementation
+   whether it is expected that the implementation initializes device memory, or whether
+   memory initialization should be left to the application. Implementations can also provide
+   feedback on whether applications explicitly initializing memory might be beneficial compared
+   to leaving it to the implementation.
+
+== Proposal
+
+Add a new structure named `VkMemoryInitializationCreateInfoFROG` that can be added to the `pNext`
+chain of a `VkMemoryAllocateInfo` structure. Applications can communicate their preference regarding
+memory initialization for every memory allocation.
+
+```
+typedef struct VkMemoryInitializationCreateInfoFROG {
+    VkStructureType                   sType;
+    const void*                       pNext;
+    VkMemoryInitializationModeFROG    memoryInitializationMode;
+} VkMemoryInitializationCreateInfoFROG;
+```
+
+On most implementations, memory is only ever initialized to zero, if it is initialized at all.
+Therefore the possible application preferences are:
+
+1. No preference, the implementation should use its default behaviour
+2. No memory initialization preferred, the implementation should avoid initializing memory itself wherever possible
+3. Memory initialization expected, the implementation should initialize the memory to zero itself.
+
+```c
+typedef enum VkMemoryInitializationModeFROG {
+    VK_MEMORY_INITIALIZATION_MODE_DEFAULT_FROG = 0,
+    VK_MEMORY_INITIALIZATION_MODE_DONT_CARE_FROG = 1,
+    VK_MEMORY_INITIALIZATION_MODE_FILL_ZERO_FROG = 2,
+}
+```
+
+In order to form decisions whether to leave initialization to the implementation or to perform it explicitly,
+the application needs to know whether it might achieve higher throughput by performing the initialization itself.
+Additionally, the implementation might not be able to control initialization of all memory types:
+
+```
+typedef struct VkPhysicalDeviceMemoryInitializationControlPropertiesFROG {
+    VkStructureType    sType;
+    void*              pNext;
+    uint32_t           supportedMemoryTypes;
+    uint32_t           lowThroughputFillMemoryTypes;
+} VkPhysicalDeviceMemoryInitializationControlPropertiesFROG;
+```
+
+== Issues
+
+None.
