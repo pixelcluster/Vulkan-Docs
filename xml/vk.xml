@@ -15230,6 +15230,10 @@ typedef void* <name>MTLSharedEvent_id</name>;
             <param><type>VkQueue</type> <name>queue</name></param>
             <param>const <type>VkOutOfBandQueueTypeInfoNV</type>* <name>pQueueTypeInfo</name></param>
         </command>
+        <command>
+            <proto><type>VkDeviceAddress</type> <name>vkGetShaderContinuationAddressFROG</name></proto>
+            <param><type>VkPipeline</type> <name>pipeline</name></param>
+        </command>
     </commands>
 
     <feature api="vulkan,vulkansc" name="VK_VERSION_1_0" number="1.0" comment="Vulkan core API interface definitions">
@@ -23984,6 +23988,13 @@ typedef void* <name>MTLSharedEvent_id</name>;
             <require>
                 <enum value="1"                                             name="VK_NV_EXTENSION_556_SPEC_VERSION"/>
                 <enum value="&quot;VK_NV_extension_556&quot;"               name="VK_NV_EXTENSION_556_EXTENSION_NAME"/>
+            </require>
+        </extension>
+        <extension name="VK_FROG_shader_continuation" number="557" type="device" depends="VK_VERSION_1_0" author="FROG" contact="Friedrich Vock @pixelcluster" supported="vulkan">
+            <require>
+                <enum value="1"                                            name="VK_FROG_SHADER_CONTINUATION_SPEC_VERSION"/>
+                <enum value="&quot;VK_FROG_shader_continuation&quot;"      name="VK_KHR_VERTEX_ATTRIBUTE_DIVISOR_EXTENSION_NAME"/>
+                <command name="vkGetShaderContinuationAddressFROG"/>
             </require>
         </extension>
     </extensions>
